@@ -1,0 +1,17 @@
+node_modules/
+dist/
+.env
+*.db
+*.log
+coverage/
+*.tsbuildinfo
+*.cmd
+test/
+tests/
+__tests__/
+*.test.*
+*.spec.*
+
+# Local assessment deliverables
+docs/
+VERIFICATION.md
