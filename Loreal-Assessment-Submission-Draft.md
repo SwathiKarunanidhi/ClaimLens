@@ -81,7 +81,6 @@ Evidence gaps are JSON-encoded text in SQLite and returned as an array by the AP
 The prompt asks for comparison of outcome, magnitude, time point, population, formulation, methods, and uncertainty. It treats claim and evidence text as untrusted data and instructs the model not to invent findings. These instructions reduce some risks but are not a complete prompt-injection defense.
 Confidence is the model's subjective confidence in its assessment. Missing or weak evidence should result in a qualified negative recommendation with an explanation.
 
-Current Implementation details are available in the [ClaimLens current implementation](ClaimLens-Current-Implementation.md).
 
 ## 4. Product Roadmap
 

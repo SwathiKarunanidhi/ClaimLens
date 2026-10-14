@@ -4,18 +4,38 @@ A complete local prototype for reviewing beauty product claims against study evi
 
 **Assessment modes:** demo runs without credentials; live uses OpenAI with a backend API key.
 
+## UI screenshots
+
+The original black, purple and pink interface, shown in labelled demo mode with fictional products and study data.
+
+### Home
+
+![ClaimLens Home](assets/screenshots/home.jpg)
+
+### Claims
+
+![ClaimLens Claims](assets/screenshots/claims.jpg)
+
+### Evaluation
+
+![ClaimLens Evaluation](assets/screenshots/evaluation.jpg)
+
+Example saved demo result:
+
+![ClaimLens assessment result](assets/screenshots/evaluation-result.jpg)
+
 ## Run locally
 
 1. Install **Node.js 22.12 or newer** (Node 24 LTS recommended) with npm.
 2. Open a terminal in this folder, beside this README and the root `package.json`.
-3. Run (dependencies are already installed in the provided local folder; installation is needed after extracting the ZIP elsewhere):
+3. Install dependencies and start both applications:
 
 ```sh
 npm install
 npm run dev
 ```
 
-Open **http://localhost:3000**. Both apps start together. On Windows, you can instead double-click `start-local.cmd`; it installs dependencies if needed and starts both apps. First installation requires internet access. All application source, lockfile, and configuration are included; `node_modules` is downloaded for your operating system.
+Open **http://localhost:3000**. Both apps start together. First installation requires internet access. All application source, lockfile, and configuration are included; `node_modules` is downloaded for your operating system.
 
 The default is **demo mode**, which runs immediately without API credentials. Five fictional claims and study summaries load automatically. Assessments disappear when the backend restarts, including a restart triggered by editing backend source.
 
@@ -31,7 +51,7 @@ OPENAI_API_KEY=your_api_key_here
 OPENAI_MODEL=gpt-4.1-mini
 ```
 
-Restart the backend, refresh the browser, and verify the top-right indicator says **Live OpenAI**. The selected model must be available to your API project and support structured Chat Completions output. Live requests require internet access and API billing. The key stays on the backend and is never included in frontend code. Do not commit `.env`.
+Restart the backend, refresh the browser, and verify the top-right indicator says **Live assessment**. The selected model must be available to your API project and support structured Chat Completions output. Live requests require internet access and API billing. The key stays on the backend and is never included in frontend code. Do not commit `.env`.
 
 Demo mode is a deterministic fixture, **not an LLM**. Original example text returns predefined educational results. Edited/custom evidence returns **Not assessed** with no confidence value displayed. Results and history are visibly labelled by mode. Live errors never fall back silently to demo results.
 
@@ -48,7 +68,6 @@ Suggested walkthrough: evaluate Revive Peptide Serum for a supported example, Aq
 ```sh
 npm run dev       # frontend + backend, watch mode
 npm run build     # type-check and compile both applications
-npm test          # HTTP integration and memory database tests
 npm start         # compiled backend + frontend preview (run build first)
 ```
 
@@ -90,7 +109,6 @@ Error cases: 400 invalid/stale input; 404 unknown claim; 503 missing live key; 5
 claimlens/
   package.json              Installer and combined scripts
   package-lock.json         Root, backend, and frontend lockfiles
-  start-local.cmd           Windows launcher
   backend/
     .env.example
     prisma/schema.prisma    Claim and Assessment models
@@ -99,7 +117,6 @@ claimlens/
     src/database.ts         Singleton in-memory Prisma setup
     src/assessment.ts       Prompt, validated OpenAI output, demo fixtures
     src/seed.ts             Fictional claims and studies
-    test/assessment.test.ts HTTP integration tests
   frontend/
     index.html
     vite.config.ts          Port 3000 and API proxy
@@ -127,7 +144,7 @@ The font stylesheet optionally loads Google Fonts; system sans-serif fallbacks k
 - **Live mode fails:** check key, billing, selected-model access, and connection. No successful live assessment is claimed by this repository without your own configured key.
 - **History disappears:** expected when the backend restarts; storage is intentionally in memory.
 
-See `docs/technical-proposal.md` for business flow, research, architecture, roadmap, and interview notes. See `VERIFICATION.md` for checks performed.
+Test folders and Windows launcher scripts are excluded from this assessment repository. Deployment templates are not needed for local startup and are not included.
 
 The backend pins Prisma 6 with tested SQLite driver 13, which bundles cross-platform prebuilds for modern Node versions. Overrides for two Prisma CLI dependencies apply available security fixes; regenerate and test when changing these pins.
 
@@ -135,6 +152,6 @@ The backend pins Prisma 6 with tested SQLite driver 13, which bundles cross-plat
 
 ## Assessment submission
 
-See [the submission draft](Loreal-Assessment-Submission-Draft.md) for business understanding, research, architecture justification and roadmap. [Current implementation](ClaimLens-Current-Implementation.md) is documented separately.
+See [the submission draft](Loreal-Assessment-Submission-Draft.md) for business understanding, research, architecture justification and roadmap.
 
 Start locally with `npm install` and `npm run dev`. Deployment templates are not included in this assessment.
