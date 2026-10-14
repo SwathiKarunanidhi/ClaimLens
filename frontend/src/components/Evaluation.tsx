@@ -36,7 +36,7 @@ export function Evaluation({ health }: { health: Health | null }) {
     setDetailError("");
     setHistory([]);
     const claim = claims.find((c) => c.id === selectedId);
-    setEvidence(claim?.sampleEvidence || "");
+    setEvidence(claim?.evidence || "");
     if (claim)
       api
         .claim(claim.id)
@@ -101,6 +101,7 @@ export function Evaluation({ health }: { health: Health | null }) {
           <i /> Scientific review
         </span>
       </div>
+
       {health?.mode === "demo" && (
         <div className="demo-banner">
           <Sparkles size={17} />
@@ -178,7 +179,7 @@ export function Evaluation({ health }: { health: Health | null }) {
                   className="text-button"
                   disabled={!selected || busy}
                   onClick={() => {
-                    setEvidence(selected?.sampleEvidence || "");
+                    setEvidence(selected?.evidence || "");
                     setRunError("");
                   }}
                 >
@@ -218,17 +219,13 @@ export function Evaluation({ health }: { health: Health | null }) {
                 ) : (
                   <>
                     <Sparkles size={18} />
-                    {health?.mode === "live"
-                      ? "Run AI assessment"
-                      : "Run demo assessment"}
+                    {health?.mode === "demo" ? "Run demo assessment" : "Evaluate evidence"}
                     <ArrowRight size={18} />
                   </>
                 )}
               </button>
               <p className="action-caption">
-                {health?.mode === "live"
-                  ? "The result is saved with the supplied evidence and model version."
-                  : "Demo output is saved and labelled. No AI call is made."}
+                {health?.mode === "demo" ? "Demo output is saved and labelled. No AI call is made." : "AI recommendation saved for human review."}
               </p>
             </section>
           </div>

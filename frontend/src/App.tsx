@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link, NavLink, Route, Routes } from "react-router-dom";
 import { api } from "./api";
-import { Layers3 } from "./icons";
-import type { Claim, Health } from "./types";
-import { Home } from "./components/Home";
 import { Claims } from "./components/Claims";
 import { Evaluation } from "./components/Evaluation";
+import { Home } from "./components/Home";
+import { Layers3 } from "./icons";
+import type { Claim, Health } from "./types";
 
 export function useClaims() {
   const [claims, setClaims] = useState<Claim[]>([]);
@@ -54,11 +54,7 @@ export function App() {
           </nav>
           <span className="environment">
             <i className={health ? "online" : ""} />
-            {health
-              ? health.mode === "live"
-                ? "Live AI mode"
-                : "Demo workspace"
-              : "Connecting to API"}
+            {health ? (health.mode === "demo" ? "Demo workspace" : "Live assessment") : "Connecting…"}
           </span>
         </div>
       </header>

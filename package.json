@@ -1,17 +1,12 @@
 {
-  "name": "claimlens",
-  "version": "1.0.0",
-  "private": true,
-  "engines": {
-    "node": ">=22.12.0"
-  },
+  "name": "claimlens", "version": "1.0.0", "private": true,
+  "engines": {"node": ">=22.12.0"},
   "scripts": {
     "postinstall": "npm install --prefix backend && npm install --prefix frontend",
     "dev": "concurrently --kill-others -n API,WEB -c magenta,cyan \"npm run dev --prefix backend\" \"npm run dev --prefix frontend\"",
     "build": "npm run build --prefix backend && npm run build --prefix frontend",
+    "test": "npm run test --prefix backend",
     "start": "concurrently --kill-others -n API,WEB \"npm run start --prefix backend\" \"npm run preview --prefix frontend\""
   },
-  "devDependencies": {
-    "concurrently": "9.2.5"
-  }
+  "devDependencies": {"concurrently": "9.2.5"}
 }

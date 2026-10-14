@@ -14,7 +14,7 @@ model Claim {
   category           String
   claimText          String
   formulaDescription String
-  sampleEvidence     String
+  evidence           String
   createdAt          DateTime     @default(now())
   updatedAt          DateTime     @updatedAt
   assessments        Assessment[]

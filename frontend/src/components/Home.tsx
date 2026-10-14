@@ -15,7 +15,7 @@ import { ErrorBox, Eyebrow } from "./ResuableComponents";
 export function Home() {
   const { claims, loading, error, reload } = useClaims();
   const reviewed = claims.filter(
-    (c) => c.latestAssessment && c.latestAssessment.confidenceScore > 0,
+    (c) => c.latestAssessment && !(c.latestAssessment.confidenceScore === 0),
   ).length;
   return (
     <>

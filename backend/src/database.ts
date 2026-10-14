@@ -1,6 +1,6 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from "@nestjs/common";
-import { PrismaClient } from "@prisma/client";
 import { PrismaBetterSQLite3 } from "@prisma/adapter-better-sqlite3";
+import { PrismaClient } from "@prisma/client";
 import { seedClaims } from "./seed";
 
 @Injectable()
@@ -18,7 +18,7 @@ export class Database
     // No migration subprocess: another connection would create a different memory DB.
     await this.$executeRawUnsafe(`CREATE TABLE "Claim" (
       "id" TEXT NOT NULL PRIMARY KEY, "productName" TEXT NOT NULL, "category" TEXT NOT NULL,
-      "claimText" TEXT NOT NULL, "formulaDescription" TEXT NOT NULL, "sampleEvidence" TEXT NOT NULL,
+      "claimText" TEXT NOT NULL, "formulaDescription" TEXT NOT NULL, "evidence" TEXT NOT NULL,
       "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, "updatedAt" DATETIME NOT NULL)`);
     await this.$executeRawUnsafe(`CREATE TABLE "Assessment" (
       "id" TEXT NOT NULL PRIMARY KEY, "claimId" TEXT NOT NULL, "claimTextSnapshot" TEXT NOT NULL,

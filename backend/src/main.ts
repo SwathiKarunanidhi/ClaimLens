@@ -1,7 +1,7 @@
-import "reflect-metadata";
+import { NestFactory } from "@nestjs/core";
 import { config } from "dotenv";
 import { resolve } from "node:path";
-import { NestFactory } from "@nestjs/core";
+import "reflect-metadata";
 import { AppModule } from "./app";
 
 config({ path: resolve(__dirname, "../.env"), quiet: true });

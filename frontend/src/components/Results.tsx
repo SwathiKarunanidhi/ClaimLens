@@ -14,9 +14,7 @@ export function Result({
     <section className="panel assessment-result">
       <div className="result-top">
         <Eyebrow>ASSESSMENT RESULT</Eyebrow>
-        <span className="result-mode">
-          {result.mode === "demo" ? "DEMO" : "LIVE AI"}
-        </span>
+        <span className="result-mode">{result.mode.toUpperCase()}</span>
       </div>
       {edited && (
         <div className="stale-note">

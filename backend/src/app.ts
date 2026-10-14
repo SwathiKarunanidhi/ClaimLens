@@ -11,12 +11,12 @@ import {
   Param,
   Post,
 } from "@nestjs/common";
-import { Database } from "./database";
 import {
   AssessmentEngine,
   assessmentInput,
   PROMPT_VERSION,
 } from "./assessment";
+import { Database } from "./database";
 
 export function serializeAssessment<T extends { evidenceGaps: string }>(
   value: T,

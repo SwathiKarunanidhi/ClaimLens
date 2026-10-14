@@ -19,7 +19,7 @@ export function Claims() {
           : filter === "Justified"
             ? c.latestAssessment?.justified
             : c.latestAssessment &&
-              c.latestAssessment.confidenceScore > 0 &&
+              !(c.latestAssessment.confidenceScore === 0) &&
               !c.latestAssessment.justified)),
   );
   return (

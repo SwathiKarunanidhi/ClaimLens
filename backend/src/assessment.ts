@@ -88,7 +88,7 @@ export class AssessmentEngine {
     } catch {
       // Do not expose vendor errors, request bodies, evidence, or credentials to the browser.
       throw new BadGatewayException(
-        "The AI provider could not return a valid assessment. Check your API key, model access and connection, then retry. No assessment was saved.",
+        "OpenAI could not return a valid assessment. Check your API key, model access and connection, then retry. No assessment was saved.",
       );
     }
   }
@@ -99,7 +99,7 @@ export class AssessmentEngine {
     evidence: string,
   ): AssessmentResult {
     const seed = seedClaims.find((c) => c.id === claimId);
-    if (!seed || seed.claimText !== claim || seed.sampleEvidence !== evidence) {
+    if (!seed || seed.claimText !== claim || seed.evidence !== evidence) {
       return {
         justified: false,
         confidenceScore: 0,
