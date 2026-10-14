@@ -42,8 +42,8 @@ History resets when the backend restarts. Assessments support human review; conf
 
 ## Documentation
 
-- [Assessment submission](Loreal-Assessment-Submission-Draft.md)
-- [Current implementation](ClaimLens-Current-Implementation.md)
+- [Assessment submission](docs/Loreal-Assessment-Submission-Draft.md)
+- [Current implementation](docs/ClaimLens-Current-Implementation.md)
 
 ## Screenshots
 
@@ -51,14 +51,14 @@ Fictional products and evidence, shown in demo mode.
 
 ### Home
 
-![Home](assets/screenshots/home.jpg)
+![Home](assets/screenshots/home.png)
 
 ### Claims
 
-![Claims](assets/screenshots/claims.jpg)
+![Claims](assets/screenshots/claims.png)
 
 ### Evaluation
 
-![Evaluation](assets/screenshots/evaluation.jpg)
+![Evaluation](assets/screenshots/evaluation.png)
 
-![Saved demo result](assets/screenshots/evaluation-result.jpg)
+![Saved demo result](assets/screenshots/evaluation-result.png)
