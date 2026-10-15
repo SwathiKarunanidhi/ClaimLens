@@ -3,7 +3,7 @@
 ### Executive summary
 
 ClaimLens helps a claims evaluator determine whether supplied study evidence supports the semantics and exact wordings of a proposed product claim. The prototype provides a three-page React interface, a NestJS API, a Prisma data model, and an OpenAI assessment integration. Each completed assessment retains the claim wording, submitted evidence, result, and model context for later review.
-The local database is intentionally in memory to remove infrastructure setup; durable storage.
+The database runs in memory to simplify setup; data resets when the backend restarts.
 
 The four sections below address the requested outputs: business process understanding, research performed, technical architecture justification, and a future product roadmap.
 
