@@ -10,8 +10,6 @@ Six core entities and one join table keep product details, tested formulations, 
 
 Types use Prisma notation: Int, String, Boolean, DateTime and Json. Stage represents restricted workflow values; `?` means optional. PK is a primary key and FK is a foreign key. Integer primary keys auto-increment; AssessmentEvidence uses a composite primary key.
 
-WorkflowEvent.actorSubject records the authenticated identity from the identity system; a separate user table is not included in this initial model. Stage values and relationships do not replace backend permission checks.
-
 ### Claim stages
 
 ![Proposed claim stages](../assets/screenshots/claim_stages.png)
@@ -33,5 +31,5 @@ Expand ClaimLens from claim evaluation into an AI-assisted workflow covering pro
 | Business proposal  | Suggest measurable claim wording and find similar approved claims.                                                                     |
 | Claim screening    | Flag duplicates, feasibility concerns, and missing evidence.                                                                           |
 | Scientific testing | Retrieve relevant studies, suggest study-design questions, and extract submitted results. Scientists conduct and validate experiments. |
-| Evaluation         | Compare claims against cited evidence and suggest narrower wording when needed.                                                        |
+| Evaluation         | Recommend justified or not justified, with a confidence score, reasoning and evidence gaps linked to cited evidence. Suggest narrower wording when needed. |
 | Reporting          | Draft review reports with sources, findings, and approval history.                                                                     |
