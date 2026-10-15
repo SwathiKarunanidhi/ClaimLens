@@ -1,7 +1,5 @@
 # ClaimLens current implementation
 
-The executable implementation accompanies this proposal. The following excerpts summarize the three technical areas requested in the assignment; they are illustrative outlines, not replacements for the application source.
-
 ### Database relationship
 
 ```prisma
@@ -37,8 +35,6 @@ model Assessment {
 ```
 
 Claim and Assessment IDs are auto-incrementing integers. Assessment.claimId references Claim.id. Each evaluation inserts a new assessment; IDs and history reset with the in-memory database.
-
-The executable schema additionally specifies the SQLite datasource, Prisma generator, and relation deletion behavior. The prototype writes `evidenceGaps` as JSON text and exposes an array to clients.
 
 ### NestJS assessment workflow
 
