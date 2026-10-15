@@ -83,7 +83,7 @@ export function Claims() {
                   <h3>{claim.productName}</h3>
                   <p>“{claim.claimText}”</p>
                   <small>
-                    {claim.id.replace("clm-", "CL-").toUpperCase()} ·{" "}
+                    {`CL-${String(claim.id).padStart(3, "0")}`} ·{" "}
                     {claim.assessmentCount} assessment
                     {claim.assessmentCount !== 1 ? "s" : ""}
                   </small>

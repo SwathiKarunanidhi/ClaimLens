@@ -20,8 +20,8 @@ async function request<T>(path: string, options?: RequestInit): Promise<T> {
 export const api = {
   health: () => request<Health>("/health"),
   claims: () => request<Claim[]>("/claims"),
-  claim: (id: string) => request<Claim>(`/claims/${encodeURIComponent(id)}`),
-  assess: (claimId: string, claim: string, evidence: string) =>
+  claim: (id: number) => request<Claim>(`/claims/${encodeURIComponent(id)}`),
+  assess: (claimId: number, claim: string, evidence: string) =>
     request<Assessment>("/claims/assess", {
       method: "POST",
       body: JSON.stringify({ claimId, claim, evidence }),

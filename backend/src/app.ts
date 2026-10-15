@@ -9,6 +9,7 @@ import {
   Module,
   NotFoundException,
   Param,
+  ParseIntPipe,
   Post,
 } from "@nestjs/common";
 import {
@@ -51,7 +52,7 @@ export class ClaimsService {
     }));
   }
 
-  async detail(id: string) {
+  async detail(id: number) {
     const claim = await this.db.claim.findUnique({
       where: { id },
       include: {
@@ -118,7 +119,7 @@ export class ClaimsController {
   @Get("claims") list() {
     return this.claims.list();
   }
-  @Get("claims/:id") detail(@Param("id") id: string) {
+  @Get("claims/:id") detail(@Param("id", ParseIntPipe) id: number) {
     return this.claims.detail(id);
   }
   @Post("claims/assess") @HttpCode(201) assess(@Body() body: unknown) {

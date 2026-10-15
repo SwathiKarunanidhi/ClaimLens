@@ -38,7 +38,7 @@ npm run build   # Type-check and build both apps
 npm start       # Run locally after building
 ```
 
-History resets when the backend restarts. Assessments support human review; confidence is not a clinical probability.
+Claim and assessment IDs are auto-incrementing integers. History and IDs reset when the backend restarts. Assessments support human review; confidence is not a clinical probability.
 
 ## Documentation
 

@@ -1,6 +1,6 @@
 export interface Assessment {
-  id: string;
-  claimId: string;
+  id: number;
+  claimId: number;
   claimTextSnapshot: string;
   evidenceText: string;
   justified: boolean;
@@ -13,7 +13,7 @@ export interface Assessment {
   createdAt: string;
 }
 export interface Claim {
-  id: string;
+  id: number;
   productName: string;
   category: string;
   claimText: string;

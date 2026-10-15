@@ -20,7 +20,8 @@ import { Result } from "./Results";
 export function Evaluation({ health }: { health: Health | null }) {
   const { claims, loading, error, reload } = useClaims();
   const [params, setParams] = useSearchParams();
-  const selectedId = params.get("claimId") || "";
+  const selectedIdParam = params.get("claimId") || "";
+  const selectedId = Number(selectedIdParam);
   const selected = claims.find((c) => c.id === selectedId);
   const [evidence, setEvidence] = useState("");
   const [result, setResult] = useState<Assessment | null>(null);
@@ -133,7 +134,7 @@ export function Evaluation({ health }: { health: Health | null }) {
               <select
                 id="claim-select"
                 disabled={busy}
-                value={selectedId}
+                value={selectedIdParam}
                 onChange={(e) =>
                   setParams(e.target.value ? { claimId: e.target.value } : {})
                 }
@@ -145,14 +146,14 @@ export function Evaluation({ health }: { health: Health | null }) {
                   </option>
                 ))}
               </select>
-              {selectedId && !selected && (
+              {selectedIdParam && !selected && (
                 <ErrorBox message="This claim does not exist. Choose a claim from the list." />
               )}
               {selected && (
                 <div className="selected-claim">
                   <div>
                     <span className="category">{selected.category}</span>
-                    <span className="subtle">{selected.id.toUpperCase()}</span>
+                    <span className="subtle">{`CL-${String(selected.id).padStart(3, "0")}`}</span>
                   </div>
                   <h3>“{selected.claimText}”</h3>
                   <p>

@@ -9,7 +9,7 @@ datasource db {
 }
 
 model Claim {
-  id                 String       @id @default(cuid())
+  id                 Int       @id @default(autoincrement())
   productName        String
   category           String
   claimText          String
@@ -21,8 +21,8 @@ model Claim {
 }
 
 model Assessment {
-  id                String   @id @default(cuid())
-  claimId           String
+  id                Int   @id @default(autoincrement())
+  claimId           Int
   claim             Claim    @relation(fields: [claimId], references: [id], onDelete: Cascade)
   claimTextSnapshot String
   evidenceText      String

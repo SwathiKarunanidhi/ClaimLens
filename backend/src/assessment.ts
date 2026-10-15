@@ -20,7 +20,7 @@ export type AssessmentResult = z.infer<typeof resultSchema>;
 export const PROMPT_VERSION = "claims-evidence-v1";
 export const assessmentInput = z
   .object({
-    claimId: z.string().trim().min(1).max(100),
+    claimId: z.number().int().positive().max(Number.MAX_SAFE_INTEGER),
     claim: z.string().trim().min(5).max(2000),
     evidence: z.string().trim().min(30).max(20000),
   })
@@ -49,7 +49,7 @@ export class AssessmentEngine {
   }
 
   async assess(
-    claimId: string,
+    claimId: number,
     claim: string,
     evidence: string,
     formula: string,
@@ -94,7 +94,7 @@ export class AssessmentEngine {
   }
 
   private demo(
-    claimId: string,
+    claimId: number,
     claim: string,
     evidence: string,
   ): AssessmentResult {
@@ -110,8 +110,8 @@ export class AssessmentEngine {
         ],
       };
     }
-    const examples: Record<string, AssessmentResult> = {
-      "clm-wrinkle": {
+    const examples: Record<number, AssessmentResult> = {
+      1: {
         justified: true,
         confidenceScore: 90,
         reasoning:
@@ -121,7 +121,7 @@ export class AssessmentEngine {
           "Review the original study report before any business approval.",
         ],
       },
-      "clm-hydration": {
+      2: {
         justified: false,
         confidenceScore: 98,
         reasoning:
@@ -131,7 +131,7 @@ export class AssessmentEngine {
           "Include a control group and report uncertainty estimates.",
         ],
       },
-      "clm-hair": {
+      3: {
         justified: false,
         confidenceScore: 87,
         reasoning:
@@ -141,7 +141,7 @@ export class AssessmentEngine {
           "Provide consumer-use evidence if retaining the broad wording.",
         ],
       },
-      "clm-glow": {
+      4: {
         justified: false,
         confidenceScore: 97,
         reasoning:
@@ -152,7 +152,7 @@ export class AssessmentEngine {
           "Use a suitable controlled study with a justified sample size.",
         ],
       },
-      "clm-lip": {
+      5: {
         justified: true,
         confidenceScore: 78,
         reasoning:

@@ -17,11 +17,11 @@ export class Database
     // A fresh schema belongs to the same singleton connection as all Prisma queries.
     // No migration subprocess: another connection would create a different memory DB.
     await this.$executeRawUnsafe(`CREATE TABLE "Claim" (
-      "id" TEXT NOT NULL PRIMARY KEY, "productName" TEXT NOT NULL, "category" TEXT NOT NULL,
+      "id" INTEGER PRIMARY KEY AUTOINCREMENT, "productName" TEXT NOT NULL, "category" TEXT NOT NULL,
       "claimText" TEXT NOT NULL, "formulaDescription" TEXT NOT NULL, "evidence" TEXT NOT NULL,
       "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP, "updatedAt" DATETIME NOT NULL)`);
     await this.$executeRawUnsafe(`CREATE TABLE "Assessment" (
-      "id" TEXT NOT NULL PRIMARY KEY, "claimId" TEXT NOT NULL, "claimTextSnapshot" TEXT NOT NULL,
+      "id" INTEGER PRIMARY KEY AUTOINCREMENT, "claimId" INTEGER NOT NULL, "claimTextSnapshot" TEXT NOT NULL,
       "evidenceText" TEXT NOT NULL, "justified" BOOLEAN NOT NULL, "confidenceScore" INTEGER NOT NULL,
       "reasoning" TEXT NOT NULL, "evidenceGaps" TEXT NOT NULL, "model" TEXT NOT NULL,
       "promptVersion" TEXT NOT NULL, "mode" TEXT NOT NULL, "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
