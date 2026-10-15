@@ -1,6 +1,6 @@
 # ClaimLens
 
-Evaluate beauty product claims against study evidence using **React, NestJS, Prisma and OpenAI**. SQLite runs in memory; no database server is needed.
+Compare evaluator-submitted evidence with product claims using **React, NestJS, Prisma and OpenAI**. SQLite runs in memory; no database server is needed.
 
 ## Run locally
 

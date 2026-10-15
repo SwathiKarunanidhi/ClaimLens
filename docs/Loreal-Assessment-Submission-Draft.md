@@ -1,86 +1,72 @@
-# ClaimLens technical proposal
+# ClaimLens assessment submission
 
-### Executive summary
+## Overview
 
-ClaimLens helps a claims evaluator determine whether supplied study evidence supports the semantics and exact wordings of a proposed product claim. The prototype provides a three-page React interface, a NestJS API, a Prisma data model, and an OpenAI assessment integration. Each completed assessment retains the claim wording, submitted evidence, result, and model context for later review.
-The database runs in memory to simplify setup; data resets when the backend restarts.
+ClaimLens helps compare evidence submitted by evaluators with the exact wording of proposed product claims. The prototype provides a three-page React interface, a NestJS API, an OpenAI integration and Prisma with in-memory SQLite. It saves each assessment for review, including the submitted wording, evidence and result.
 
-The four sections below address the requested outputs: business process understanding, research performed, technical architecture justification, and a future product roadmap.
+The database runs in memory to simplify setup; data resets when the backend restarts. The application supports evidence assessment, not the complete product-development and testing workflow.
 
 ## 1. Business process understanding
 
-### Business Requirement
+Business team proposes a product and its intended claims.
+Claim managers and research stakeholders check applicability, feasibility and relevant existing work.
+Scientists develop and test the formulation.
+Evaluators test the product against the claims and submit evidence and reports.
 
-A product claim expresses a specific promise. A scientist may produce evidence for a related benefit without substantiating every part of that promise. The evaluator needs to compare the wording with what was actually tested, identify gaps, and communicate an accountable decision.
+| Stage | Responsible stakeholder | Output |
+| --- | --- | --- |
+| Product proposal | Business or marketing team | Product idea and proposed claims |
+| Feasibility screening | Claim manager and research team | Applicability, feasibility and relevant existing knowledge |
+| Formulation development | Scientist | Developed formulation and formulation-test findings |
+| Product evaluation | Evaluator | Evidence and report from testing the product against its claims |
 
-For example, a study showing improved hydration at 24 hours does not establish a claim of 48-hour hydration. The system should explain the missing time point rather than produce a generic positive summary of the study.
+One product may have several claims requiring different evidence. A study showing improved hydration at 24 hours does not establish 48-hour hydration. ClaimLens identifies that gap in the supplied evidence; insufficient support does not prove the claim false.
 
-### The business workflow
+The prototype begins when evaluation evidence is available. It compares that evidence with a selected claim and returns a recommendation for human review. It does not conduct product tests, collect raw observations or approve claims automatically.
 
-| Stage              | Primary stakeholder | Question to resolve                                        | Output                                                   |
-| ------------------ | ------------------- | ---------------------------------------------------------- | -------------------------------------------------------- |
-| Propose            | Business team       | What benefit do we want to communicate?                    | Proposed product and claim wording                       |
-| Screen             | Claim manager       | Is the claim applicable and feasible to substantiate?      | Screening decision and evidence needs                    |
-| Formulate and test | Scientist           | Which formulation and study can test the proposed benefit? | Formulation identity, methods, findings, and limitations |
-| Evaluate           | Evaluator           | Does the evidence support the exact claim?                 | Assessment and recommendation for human review           |
+## 2. Research performed designing the solution
 
-The prototype implements the evaluation stage. The earlier stages provide context rather than complete role-based workflows. This keeps the ClaimLens focused on the required claim, evidence, LLM, database, and UI interaction.
+### Industry and business research
 
-## 2. Research performed and its effect on the design
+- L’Oréal distinguishes formulation development from evaluation, which includes clinical studies, consumer testing and instrumental measurements. [L’Oréal R&I](https://careers.loreal.com/en/research-innovation-careers)
+- L’Oréal combines scientific knowledge with consumer insights and evaluates product efficacy, sensory experience and real-life use. [Beauty Full of Science](https://www.loreal.com/en/commitments-and-responsibilities/for-our-products/beauty-full-of-science/)
 
-Research focused on implementation requirements and evidence-review failure modes. Technology research used primary documentation; the prototype did not perform a clinical literature review or validate the scientific quality of any model against real product studies.
+### Technical research
 
-| Research area           | Finding                                                                                      | Consequence for this solution                                                                              |
-| ----------------------- | -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| React UI layer          | Components separate presentation, while state tracks changing user input and request status. | Use Home, Claims, and Evaluate views with reusable components and clear loading, error, and result states. |
-| NestJS request handling | Controllers and injectable providers separate HTTP handling from application behavior.       | Keep the controller small and place orchestration and model interaction behind service boundaries.         |
-| Prisma and SQLite       | SQLite can be accessed through a Prisma driver adapter without a database server.            | Use a singleton in-memory connection for the requested local prototype.                                    |
-| Structured model output | A JSON schema can constrain response structure.                                              | Return predictable result fields and validate them before saving.                                          |
+| Research area | Design decision |
+| --- | --- |
+| React components and state | Separate Home, Claims and Evaluation views; show loading, errors and results clearly. |
+| NestJS controllers and services | Separate HTTP routing, business checks and model interaction. |
+| Prisma and SQLite adapters | Use a singleton in-memory database for simple local setup and assessment history. |
+| Structured model output | Define predictable result fields and validate them before saving. |
+| Claim and evidence comparison | Compare outcome, magnitude, duration, population and formulation context; explain missing evidence. |
 
-### Primary sources
+Sources: [React](https://react.dev/learn/thinking-in-react), [NestJS](https://docs.nestjs.com/controllers), [Prisma SQLite](https://docs.prisma.io/docs/orm/v6/overview/databases/sqlite), [SQLite adapter](https://github.com/WiseLibs/better-sqlite3/blob/master/docs/api.md), [Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs?api-mode=chat).
 
-- [React component design](https://react.dev/learn/thinking-in-react) and [state management](https://react.dev/learn/managing-state)
-- [NestJS controllers](https://docs.nestjs.com/controllers)
-- [Prisma SQLite documentation for version 6](https://docs.prisma.io/docs/orm/v6/overview/databases/sqlite)
-- [better-sqlite3 API and in-memory databases](https://github.com/WiseLibs/better-sqlite3/blob/master/docs/api.md)
-- [OpenAI Structured Outputs](https://developers.openai.com/api/docs/guides/structured-outputs?api-mode=chat)
+## 3. Technical architecture justification
 
-## 3. Technical architecture justification (In this scope)
+![Current ClaimLens architecture](../assets/screenshots/current_architecture.png)
 
-### Architecture and request flow
+React presents the claim library and evidence-assessment interface. NestJS validates the request, loads the saved claim, obtains an assessment and saves the result through Prisma. The assessment engine isolates the prompt and OpenAI interaction from the controller and persistence logic.
 
-![Current ClaimLens architecture and assessment flow](../assets/screenshots/current_architecture.png)
+| Choice | Why it fits the prototype |
+| --- | --- |
+| React | Reusable components and state for an interactive assessment flow. |
+| NestJS services | Clear responsibilities and dependencies that can be replaced in tests. |
+| Prisma and in-memory SQLite | Typed relational queries without database-server setup. |
+| Direct model request | Keeps the required end-to-end flow simple. |
+| Input snapshots | Preserve the wording and evidence evaluated on each run. |
 
-The diagram shows the required live OpenAI flow. Labelled demo mode uses predefined examples for a repeatable UI walkthrough. Demo output is not presented as an AI inference.
+The assessment endpoint receives `claimId`, `claim` and `evidence`. Zod checks types and limits; the service checks that the claim exists and submitted wording matches the saved wording. These are separate checks: a valid input shape does not establish a valid business record.
 
-### Frontend UI design
+The result contains justified or not justified, a confidence score, reasoning and evidence gaps. Valid positive and negative recommendations create new Assessment records. Invalid requests and failed model calls do not create successful assessments. A database-save failure returns an error rather than an unsaved success.
 
-React components handle presentation and interaction. The interface contains Home, Claims, and Evaluate views. Home introduces the workflow; Claims supports discovery and status review; Evaluate brings the product promise, formulation context, study text, reasoning, and history together.
+Demo mode uses labelled predefined examples. Edited evidence returns Not assessed in demo mode; live mode calls OpenAI. Structured output checks format, not scientific correctness. Model confidence is self-reported and is not a clinical probability. Human review remains necessary.
 
-### Backend and API design
+See [Current implementation](ClaimLens-Current-Implementation.md) for the schema and request flow.
 
-NestJS runs on Node.js using its Express platform integration. The controller exposes the requested endpoint; a service owns validation, claim lookup, assessment orchestration, and persistence. The assessment engine isolates prompt and provider behavior.
+## 4. Product roadmap
 
-| Endpoint                  | Responsibility                                      |
-| ------------------------- | --------------------------------------------------- |
-| `GET /api/health`         | API status and configured assessment mode/model     |
-| `GET /api/claims`         | Claim library with latest assessments and counts    |
-| `GET /api/claims/:id`     | Claim details and assessment history                |
-| `POST /api/claims/assess` | Validate, assess, persist, and return an assessment |
+Extend the product across proposal, feasibility screening, formulation development, product evaluation and reporting. Keep scientific and business decisions with their responsible owners.
 
-The POST body contains `claimId`, `claim`, and `evidence`. The service rejects unknown claims and wording that differs from the saved claim. This avoids accidentally associating a result with a different claim version.
-The input validator bounds text length. Output validation checks the verdict type, integer confidence between 0 and 100, reasoning, and evidence gaps. Provider failures and invalid responses are not saved as successful assessments. Database errors remain failures rather than being converted into a verdict.
-
-### Data model and traceability
-
-One Claim can have many Assessments. Claim stores product name, category, claim wording, formulation description, fictional sample evidence, and timestamps. Assessment stores the claim relationship, wording snapshot, submitted evidence, verdict, confidence, reasoning, evidence gaps, and execution metadata.
-Evidence gaps are JSON-encoded text in SQLite and returned as an array by the API. The `(claimId, createdAt)` index supports claim-specific history queries.
-
-### AI reliability and failure handling
-
-The prompt asks for comparison of outcome, magnitude, time point, population, formulation, methods, and uncertainty. It treats claim and evidence text as untrusted data and instructs the model not to invent findings. These instructions reduce some risks but are not a complete prompt-injection defense.
-Confidence is the model's subjective confidence in its assessment. Missing or weak evidence should result in a qualified negative recommendation with an explanation.
-
-## 4. Product Roadmap
-
-See [Future implementation and product roadmap](Future-Implementation.md) for the proposed data model, claim stages and AI vision.
+See [Future implementation and roadmap](Future-Implementation.md) for the proposed data model, stages and AI capabilities.
