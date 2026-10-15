@@ -83,30 +83,4 @@ Confidence is the model's subjective confidence in its assessment. Missing or we
 
 ## 4. Product Roadmap
 
-Expand ClaimLens from claim evaluation into an AI-assisted workflow covering proposals, screening, scientific testing, and reporting. These are future enhancements; final decisions remain with the responsible business and scientific owners.
-
-### Vision: AI across all stages features
-
-| Stage              | Proposed enhancement                                                                                                                   |
-| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
-| Business proposal  | Suggest measurable claim wording and find similar approved claims.                                                                     |
-| Claim screening    | Flag duplicates, feasibility concerns, and missing evidence.                                                                           |
-| Scientific testing | Retrieve relevant studies, suggest study-design questions, and extract submitted results. Scientists conduct and validate experiments. |
-| Evaluation         | Compare claims against cited evidence and suggest narrower wording when needed.                                                        |
-| Reporting          | Draft review reports with sources, findings, and approval history.                                                                     |
-
-### Proposed architecture for AI functionality
-
-![Proposed ClaimLens architecture](../assets/screenshots/future_architecture.png)
-
-### Why this architecture
-
-- **NestJS remains the backend:** modules handle APIs, access checks, input validation, intent routing, workflow rules, and approvals. Start as a modular application.
-- **Azure Service Bus and workers:** run long document and AI tasks separately, with job status, bounded retries, dead-letter handling, and idempotent processing.
-- **Input guardrails:** request validation to apply sensitive-data policies and approved PII detection/redaction before model calls.
-- **Intent routing:** use explicit task selection first. Add an AI classifier for ambiguous requests, while backend permissions still control allowed actions.
-- **Model gateway**: Primary provider / fallback provider
-- **Secret protection:** use Azure Key Vault and managed identity where supported. Keep model API keys out of React, prompts, and logs.
-- **Evidence and accountability:** retrieve only permitted documents, retain source versions, and save recommendations for human approval. Monitor latency, failures, cost, and reviewer corrections.
-
-Implementation references: [NestJS queues](https://docs.nestjs.com/techniques/queues), [Azure Service Bus](https://learn.microsoft.com/en-us/javascript/api/overview/azure/service-bus-readme?view=azure-node-latest), [PII detection](https://learn.microsoft.com/en-us/azure/ai-services/language-service/personally-identifiable-information/overview), [Key Vault](https://learn.microsoft.com/en-us/azure/key-vault/general/authentication).
+See [Future implementation and product roadmap](Future-Implementation.md) for the proposed data model, claim stages and AI vision.

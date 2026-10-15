@@ -44,6 +44,7 @@ Claim and assessment IDs are auto-incrementing integers. History and IDs reset w
 
 - [Assessment submission](docs/Loreal-Assessment-Submission-Draft.md)
 - [Current implementation](docs/ClaimLens-Current-Implementation.md)
+- [Future implementation and roadmap](docs/Future-Implementation.md)
 
 ## Screenshots
 
